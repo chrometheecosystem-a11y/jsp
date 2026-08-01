@@ -56,6 +56,18 @@ export function Navigation() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const restoreHash = () => {
+      if (!location.hash) return;
+      const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (!target) return;
+      requestAnimationFrame(() => requestAnimationFrame(() => target.scrollIntoView({ block: "start" })));
+    };
+    restoreHash();
+    addEventListener("hashchange", restoreHash);
+    return () => removeEventListener("hashchange", restoreHash);
+  }, []);
+
   const menuItems = {
     hidden: { opacity: 0, y: 18 },
     visible: (index: number) => ({
