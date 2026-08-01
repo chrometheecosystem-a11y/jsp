@@ -44,3 +44,11 @@
   --font-display: "Cormorant Garamond", "Playfair Display", "Iowan Old Style", Georgia, serif;
   --font-body: Inter, "Segoe UI", Arial, sans-serif;
 }
+
+@media (max-width: 768px) {
+  :root {
+    --space-gutter: clamp(1.25rem, 5.6vw, 1.5rem);
+    --space-scene: clamp(4.5rem, 16vw, 6rem);
+    --nav-height: 68px;
+  }
+}
