@@ -1,0 +1,12 @@
+"use client";
+import { FormEvent, useState } from "react";
+import { CheckCircle2 } from "lucide-react";
+import { event } from "@/config/event";
+
+export function ApplicationForm() {
+  const [sent,setSent] = useState(false);
+  const [pending,setPending] = useState(false);
+  function submit(e:FormEvent<HTMLFormElement>) { e.preventDefault(); const form=e.currentTarget; if(!form.checkValidity()){form.reportValidity();return} if(event.links.externalForm){window.location.href=event.links.externalForm;return} setPending(true); window.setTimeout(()=>{setPending(false);setSent(true);form.reset()},520); }
+  if(sent) return <div className="form-success" role="status"><CheckCircle2/><h3>Ta candidature est bien arrivée.</h3><p>Merci de nous avoir raconté ce que tu construis. Aron reviendra vers toi avec la même attention.</p><button onClick={()=>setSent(false)}>Envoyer une autre candidature</button></div>;
+  return <form className="application-form" onSubmit={submit} aria-busy={pending}><div className="form-grid"><label>Prénom<input name="firstName" autoComplete="given-name" required/></label><label>Nom<input name="lastName" autoComplete="family-name" required/></label><label>Email<input name="email" type="email" autoComplete="email" required/></label><label>WhatsApp<input name="whatsapp" type="tel" autoComplete="tel" required/></label><label>Instagram <span>(facultatif)</span><input name="instagram"/></label><label>Ce que tu construis<input name="activity" required/></label><label>Où en es-tu ?<select name="level" required defaultValue=""><option value="" disabled>Choisir</option><option>Idée / lancement</option><option>Activité établie</option><option>En phase de croissance</option></select></label><label>Accès souhaité<select name="pass" required defaultValue=""><option value="" disabled>Choisir</option>{event.tickets.map(t=><option key={t.name}>{t.name}</option>)}</select></label></div><label>Qu'aimerais-tu voir commencer en Bretagne ?<textarea name="motivation" rows={5} minLength={20} required/></label><label className="checkbox"><input type="checkbox" required/>J'accepte d'être contacté au sujet de Destination Bretagne.</label><button className="button button-gold" type="submit" disabled={pending}>{pending?"Envoi en cours…":"Proposer ma candidature"} <span aria-hidden>↗</span></button><p className="form-note">Aucun paiement. Une réponse personnelle après lecture.</p></form>;
+}

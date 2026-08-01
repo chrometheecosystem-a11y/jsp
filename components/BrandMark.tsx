@@ -1,0 +1,1 @@
+export function BrandMark(){return <span className="brand-lockup"><span className="brand-monogram" aria-hidden><i>D</i><i>B</i></span><span className="brand-words"><b>DESTINATION BRETAGNE</b><small>MASTERMIND · MMXXVI</small></span></span>}
