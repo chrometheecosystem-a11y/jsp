@@ -61,11 +61,14 @@ export function Navigation() {
       if (!location.hash) return;
       const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
       if (!target) return;
-      requestAnimationFrame(() => requestAnimationFrame(() => target.scrollIntoView({ block: "start" })));
+      target.scrollIntoView({ block: "start" });
     };
-    restoreHash();
+    const timers = [0, 250, 750, 1500].map((delay) => window.setTimeout(restoreHash, delay));
     addEventListener("hashchange", restoreHash);
-    return () => removeEventListener("hashchange", restoreHash);
+    return () => {
+      timers.forEach(clearTimeout);
+      removeEventListener("hashchange", restoreHash);
+    };
   }, []);
 
   const menuItems = {
